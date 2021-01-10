@@ -1,0 +1,28 @@
+# -*- coding: utf-8; org-download-method: directory; org-download-image-dir: "./image"; -*-
+#+TITLE: helm-persp-buffer-list
+#+AUTHOR: Jian Wang
+#+DATE: 2021-01-10
+
+* About
+This library is to support [[https://github.com/Bad-ptr/persp-mode.el][persp-mode]] in the new version of [[https://github.com/emacs-helm/helm][helm-buffers]].
+
+In ~persp-mode~, if to support ~helm~, it is required to set the variable ~persp-set-ido-hooks~,
+however it doesn't work anymore in the new version of ~helm~.  in
+[[https://github.com/emacs-helm/helm/issues/2311]] (2020/5/30), ~helm~ was changed to "*get rid of ido
+for listing buffers*", so that "persp-set-ido-hooks" won't take any effect on helm.
+
+In the implementation of this library, it adds advice to the helm function ~helm-buffer-list~, and
+use the functions provided by ~persp-mode~ to filter the buffer list of current frame. This
+implementation doesn't have any performance issue.
+
+* Installation
+Clone this git repo to "${user-emacs-directory}/packages/helm-persp-buffer-list", and add folowing lines to
+your Emacs config file:
+#+begin_src emacs-lisp
+  (use-package helm-persp-buffer-list
+    :after (helm-buffers persp-mode)
+    :ensure nil ; it is github package
+    ;; If the path is relative, it is expanded within `user-emacs-directory'
+    :load-path "packages/helm-persp-buffer-list"
+    )
+#+end_src
